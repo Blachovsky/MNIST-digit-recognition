@@ -1,13 +1,14 @@
 from keras.models import load_model
 import tkinter as tk
 import win32gui
-from PIL import ImageGrab, ImageOps
+from PIL import ImageGrab, ImageOps, ImageFilter, Image
 import numpy as np
 model = load_model('final_model.h5')
 
 def predict_digit(img):
     #resize image to 28x28 pixels
-    img = img.resize((28,28))
+    img = img.resize((28,28), resample=Image.BILINEAR)
+    img = img.resize(img.size, resample = Image.NEAREST)
     img.show()
     #convert rgb to grayscale
     img = img.convert('L')
