@@ -1,20 +1,16 @@
 from keras.models import load_model
 import tkinter as tk
 import win32gui
-from PIL import ImageGrab, ImageOps, ImageFilter, Image
+from PIL import ImageGrab, ImageOps
 import numpy as np
+
 model = load_model('final_model.h5')
 
 def predict_digit(img):
     #resize image to 28x28 pixels
-    img = img.resize((28,28), resample=Image.BILINEAR)
-    img = img.resize(img.size, resample = Image.NEAREST)
-    img.show()
-    #convert rgb to grayscale
-    img = img.convert('L')
-    img.show()
+    img = img.resize((28,28))
     img = ImageOps.invert(img)
-    img.show()
+    img = img.convert('L')
     img = np.array(img)
     #reshaping to support our model input and normalizing
     img = img.reshape(1,28,28,1)
@@ -46,7 +42,6 @@ class App(tk.Tk):
         HWND = self.canvas.winfo_id() # get the handle of the canvas
         rect = win32gui.GetWindowRect(HWND) # get the coordinate of the canvas
         im = ImageGrab.grab(rect)
-        im.show()
         digit, acc = predict_digit(im)
         self.label.configure(text= str(digit)+', '+ str(int(acc*100))+'%')
     def draw_lines(self, event):
