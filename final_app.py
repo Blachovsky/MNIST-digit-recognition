@@ -4,7 +4,7 @@ import win32gui
 from PIL import ImageGrab, ImageOps
 import numpy as np
 
-model = load_model('final_model.h5')
+model = load_model('mnist_model.h5')
 
 def predict_digit(img):
     #resize image to 28x28 pixels
@@ -27,13 +27,17 @@ class App(tk.Tk):
         # Creating elements
         self.canvas = tk.Canvas(self, width=300, height=300, bg = "white", cursor="cross")
         self.label = tk.Label(self, text="Thinking..", font=("Helvetica", 48))
-        self.classify_btn = tk.Button(self, text = "Recognise", command = self.classify_handwriting) 
+        self.classify_btn = tk.Button(self, text = "Recognise in canvas", command = self.classify_handwriting)
+        self.classify_pic_btn = tk.Button(self,text = "Recognize in picture", command=self.classify_digits_in_picture)
+        self.classify_camera_btn = tk.Button(self,text = "Recognize with camera", command=self.classify_digits_with_camera) 
         self.button_clear = tk.Button(self, text = "Clear", command = self.clear_all)
         # Grid structure
         self.canvas.grid(row=0, column=0, pady=2, sticky='w')
         self.label.grid(row=0, column=1,pady=2, padx=2)
-        self.classify_btn.grid(row=1, column=1, pady=2, padx=2)
         self.button_clear.grid(row=1, column=0, pady=2)
+        self.classify_btn.grid(row=1, column=1)
+        self.classify_pic_btn.grid(row=2,column=1)
+        self.classify_camera_btn.grid(row=3,column=1)
         #self.canvas.bind("<Motion>", self.start_pos)
         self.canvas.bind("<B1-Motion>", self.draw_lines)
     def clear_all(self):
@@ -44,11 +48,16 @@ class App(tk.Tk):
         im = ImageGrab.grab(rect)
         digit, acc = predict_digit(im)
         self.label.configure(text= str(digit)+', '+ str(int(acc*100))+'%')
+    def classify_digits_in_picture(self):
+        return
+    def classify_digits_with_camera(self):
+        return
     def draw_lines(self, event):
         self.x = event.x
         self.y = event.y
         r=8
         self.canvas.create_oval(self.x-r, self.y-r, self.x + r, self.y + r, fill='black')
+    
 
 app = App()
 
