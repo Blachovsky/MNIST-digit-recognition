@@ -3,22 +3,20 @@ from tensorflow.keras.datasets import mnist
 from tensorflow.keras.models import load_model
 from tensorflow.keras.utils import to_categorical
 import numpy as np
-from mnist import MNIST
 
 # load train and test dataset
 def load_dataset():
 	# load dataset
-	mdata = MNIST()
-	trainX, trainY = mdata.load(	'data_emnist/emnist-digits-train-images-idx3-ubyte',
-								'data_emnist/emnist-digits-train-labels-idx1-ubyte')
-	testX, testY = mdata.load(	    'data_emnist/emnist-digits-test-images-idx3-ubyte',
-								'data_emnist/emnist-digits-test-labels-idx1-ubyte')
-	trainX = np.array(trainX)/255.0
+	trainX = np.load('my_data/digits_x_train.npy')
+	trainY = np.load('my_data/digits_y_train.npy')
+	testX = np.load('my_data/digits_x_test.npy')
+	testY = np.load('my_data/digits_y_test.npy')
+	trainX = np.array(trainX)
 	trainY = np.array(trainY)
-	testX = np.array(testX)/255.0
+	testX = np.array(testX)
 	testY = np.array(testY)
-	trainX = trainX.reshape(trainX.shape[0], 28, 28)
-	testX = testX.reshape(testX.shape[0], 28, 28)
+	trainX = trainX.reshape(trainX.shape[0], 28, 28,1)
+	testX = testX.reshape(testX.shape[0], 28, 28,1)
 	# one hot encode target values
 	trainY = to_categorical(trainY)
 	testY = to_categorical(testY)
@@ -42,9 +40,9 @@ def run_test_harness():
 	# prepare pixel data
 	trainX, testX = prep_pixels(trainX, testX)
 	# load model
-	model = load_model('emnist_model.h5')
+	model = load_model('my_data_model.h5')
 	# evaluate model on test dataset
-	_, acc = model.evaluate(testX, testY, verbose=0)
+	_, acc = model.evaluate(testX, testY)
 	print('> %.3f' % (acc * 100.0))
 
 # entry point, run the test harness

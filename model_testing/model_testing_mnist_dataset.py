@@ -35,7 +35,7 @@ def run_test_harness():
 	# load model
 	model = load_model('mnist_model.h5')
 	# evaluate model on test dataset
-	_, acc = model.evaluate(testX, testY, verbose=0)
+	_, acc = model.evaluate(testX, testY)
 	print('> %.3f' % (acc * 100.0))
 
 # entry point, run the test harness

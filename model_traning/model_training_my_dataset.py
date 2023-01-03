@@ -12,11 +12,11 @@ import numpy as np
 # load train and test dataset
 def load_dataset():
 	# load dataset
-	mdata = MNIST('data_emnist')
-	(trainX, trainY) = mdata.load(	'data_emnist/emnist-digits-train-images-idx3-ubyte',
-									'data_emnist/emnist-digits-train-labels-idx1-ubyte')
-	(testX, testY) = mdata.load(	'data_emnist/emnist-digits-test-images-idx3-ubyte',
-									'data_emnist/emnist-digits-test-labels-idx1-ubyte')
+	
+	trainX = np.load('my_data/digits_x_train.npy')
+	trainY = np.load('my_data/digits_y_train.npy')
+	testX = np.load('my_data/digits_x_test.npy')
+	testY = np.load('my_data/digits_y_test.npy')
 	trainX = np.array(trainX) 
 	trainY = np.array(trainY)
 	testX = np.array(testX) 
@@ -67,7 +67,7 @@ def run_test_harness():
 	# fit model
 	model.fit(trainX, trainY, epochs=10, batch_size=32, verbose=0)
 	# save model
-	model.save('emnist_model.h5')
+	model.save('my_data_model.h5')
 
 # entry point, run the test harness
 run_test_harness()
