@@ -17,6 +17,7 @@ def resize_and_center(sample, new_size=28):
     inv_sample = ImageOps.invert(sample)
     bbox = inv_sample.getbbox()
     crop = inv_sample.crop(bbox)
+    show(crop, title="CROPPED")
     delta_w = new_size - crop.size[0]
     delta_h = new_size - crop.size[1]
     padding = (delta_w//2, delta_h//2, delta_w-(delta_w//2), delta_h-(delta_h//2))
