@@ -3,8 +3,7 @@ import tkinter as tk
 import win32gui
 from PIL import ImageGrab, ImageOps, ImageEnhance
 import numpy as np
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
+
 
 model = load_model('finished_working_models/my_data_model.h5')
 
@@ -24,7 +23,6 @@ def predict_digit(img):
     img = img.resize((28,28))
     img = resize_and_center(img)
     img = np.array(img)
-    print(img)
     #reshaping to support our model input and normalizing
     img = img.reshape(1,28,28,1)
     img = img.astype('float32')
