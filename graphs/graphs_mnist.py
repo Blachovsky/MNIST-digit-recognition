@@ -19,11 +19,9 @@ def load_dataset():
 	(trainX, trainY), (testX, testY) = mnist.load_data()
 	# reshape dataset to have a single channel
 	trainX = trainX.reshape((trainX.shape[0], 28, 28, 1))
-	testX = testX.reshape((testX.shape[0], 28, 28, 1))
 	# one hot encode target values
 	trainY = to_categorical(trainY)
-	testY = to_categorical(testY)
-	return trainX, trainY, testX, testY
+	return trainX, trainY
 
 # scale pixels
 def prep_pixels(train):
@@ -88,7 +86,7 @@ def summarize_diagnostics(histories):
 # run the test harness for evaluating a model
 def run_test_harness():
 	# load dataset
-	trainX, trainY, testX, testY = load_dataset()
+	trainX, trainY = load_dataset()
 	# prepare pixel data
 	trainX = prep_pixels(trainX)
 	# evaluate model

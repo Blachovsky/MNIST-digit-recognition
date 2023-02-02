@@ -18,30 +18,22 @@ import numpy as np
 def load_dataset():
 	trainX = np.load('my_data/digits_x_train.npy')
 	trainY = np.load('my_data/digits_y_train.npy')
-	testX = np.load('my_data/digits_x_test.npy')
-	testY = np.load('my_data/digits_y_test.npy')
 	trainX = np.array(trainX) 
 	trainY = np.array(trainY)
-	testX = np.array(testX) 
-	testY = np.array(testY)
 	# reshape dataset to have a single channel
 	trainX = trainX.reshape((trainX.shape[0], 28, 28, 1))
-	testX = testX.reshape((testX.shape[0], 28, 28, 1))
 	# one hot encode target values
 	trainY = to_categorical(trainY)
-	testY = to_categorical(testY)
-	return trainX, trainY, testX, testY
+	return trainX, trainY
 
 # scale pixels
-def prep_pixels(train, test):
+def prep_pixels(train):
 	# convert from integers to floats
 	train_norm = train.astype('float32')
-	test_norm = test.astype('float32')
 	# normalize to range 0-1
 	train_norm = train_norm / 255.0
-	test_norm = test_norm / 255.0
 	# return normalized images
-	return train_norm, test_norm
+	return train_norm
 
 # define cnn model
 def define_model():
@@ -61,7 +53,7 @@ def define_model():
 
 # evaluate a model using k-fold cross-validation
 def evaluate_model(dataX, dataY, n_folds=5):
-	scores, histories = list(), list()
+	histories = list()
 	# prepare cross validation
 	kfold = KFold(n_folds, shuffle=True, random_state=1)
 	# enumerate splits
@@ -76,9 +68,8 @@ def evaluate_model(dataX, dataY, n_folds=5):
 		_, acc = model.evaluate(testX, testY, verbose=0)
 		print('> %.3f' % (acc * 100.0))
 		# stores scores
-		scores.append(acc)
 		histories.append(history)
-	return scores, histories
+	return histories
 
 # plot diagnostic learning curves
 def summarize_diagnostics(histories):
@@ -99,11 +90,11 @@ def summarize_diagnostics(histories):
 # run the test harness for evaluating a model
 def run_test_harness():
 	# load dataset
-	trainX, trainY, testX, testY = load_dataset()
+	trainX, trainY = load_dataset()
 	# prepare pixel data
-	trainX, testX = prep_pixels(trainX, testX)
+	trainX = prep_pixels(trainX)
 	# evaluate model
-	scores, histories = evaluate_model(trainX, trainY)
+	histories = evaluate_model(trainX, trainY)
 	# learning curves
 	summarize_diagnostics(histories)
 	

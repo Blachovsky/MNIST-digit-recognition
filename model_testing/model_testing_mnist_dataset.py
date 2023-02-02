@@ -29,7 +29,7 @@ def run_test_harness():
 	# prepare pixel data
 	testX = prep_pixels(testX)
 	# load model
-	model = load_model('mnist_model.h5')
+	model = load_model('models/mnist_model.h5')
 	# evaluate model on test dataset
 	_, acc = model.evaluate(testX, testY)
 	print('> %.3f' % (acc * 100.0))

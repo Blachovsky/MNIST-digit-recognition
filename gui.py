@@ -39,8 +39,6 @@ class App(tk.Tk):
         self.canvas = tk.Canvas(self, width=300, height=300, bg = "white", cursor="cross")
         self.label = tk.Label(self, text="Thinking..", font=("Helvetica", 48))
         self.classify_btn = tk.Button(self, text = "Recognise in canvas", command = self.classify_handwriting)
-        self.classify_pic_btn = tk.Button(self,text = "Recognize in picture", command=self.classify_digits_in_picture)
-        self.classify_camera_btn = tk.Button(self,text = "Recognize with camera", command=self.classify_digits_with_camera) 
         self.button_clear = tk.Button(self, text = "Clear", command = self.clear_all)
         # Grid structure
         self.canvas.grid(row=0, column=0, pady=2, sticky='w')
@@ -65,10 +63,6 @@ class App(tk.Tk):
         im = ImageGrab.grab(rect)
         digit, acc = predict_digit(im)
         self.label.configure(text= str(digit)+', '+ str(int(acc*100))+'%')
-    def classify_digits_in_picture(self):
-        return
-    def classify_digits_with_camera(self):
-        return
     def draw_lines(self, event):
         self.x = event.x
         self.y = event.y
