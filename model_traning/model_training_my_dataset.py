@@ -6,39 +6,29 @@ from tensorflow.keras.layers import MaxPooling2D
 from tensorflow.keras.layers import Dense
 from tensorflow.keras.layers import Flatten
 from tensorflow.keras.optimizers import SGD
-from mnist import MNIST
 import numpy as np
 
 # load train and test dataset
 def load_dataset():
 	# load dataset
-	
 	trainX = np.load('my_data/digits_x_train.npy')
 	trainY = np.load('my_data/digits_y_train.npy')
-	testX = np.load('my_data/digits_x_test.npy')
-	testY = np.load('my_data/digits_y_test.npy')
 	trainX = np.array(trainX) 
 	trainY = np.array(trainY)
-	testX = np.array(testX) 
-	testY = np.array(testY)
 	# reshape dataset to have a single channel
 	trainX = trainX.reshape((trainX.shape[0], 28, 28, 1))
-	testX = testX.reshape((testX.shape[0], 28, 28, 1))
 	# one hot encode target values
 	trainY = to_categorical(trainY)
-	testY = to_categorical(testY)
-	return trainX, trainY, testX, testY
+	return trainX, trainY
 
 # scale pixels
-def prep_pixels(train, test):
+def prep_pixels(train):
 	# convert from integers to floats
 	train_norm = train.astype('float32')
-	test_norm = test.astype('float32')
 	# normalize to range 0-1
 	train_norm = train_norm / 255.0
-	test_norm = test_norm / 255.0
 	# return normalized images
-	return train_norm, test_norm
+	return train_norm
 
 # define cnn model
 def define_model():
@@ -59,9 +49,9 @@ def define_model():
 # run the test harness for evaluating a model
 def run_test_harness():
 	# load dataset
-	trainX, trainY, testX, testY = load_dataset()
+	trainX, trainY = load_dataset()
 	# prepare pixel data
-	trainX, testX = prep_pixels(trainX, testX)
+	trainX = prep_pixels(trainX)
 	# define model
 	model = define_model()
 	# fit model

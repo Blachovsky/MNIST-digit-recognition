@@ -4,6 +4,8 @@ import numpy as np
 from PIL import ImageEnhance, ImageOps
 import matplotlib.patches as patches
 
+
+
 image = Image.open('data_test.png')
 
 def show(img, figsize=(8, 4), title=None):
@@ -17,7 +19,6 @@ def resize_and_center(sample, new_size=28):
     inv_sample = ImageOps.invert(sample)
     bbox = inv_sample.getbbox()
     crop = inv_sample.crop(bbox)
-    show(crop, title="CROPPED")
     delta_w = new_size - crop.size[0]
     delta_h = new_size - crop.size[1]
     padding = (delta_w//2, delta_h//2, delta_w-(delta_w//2), delta_h-(delta_h//2))
@@ -77,11 +78,11 @@ preview.save('preview2.png')
 
 binary_samples = np.array([[sample.getdata() for sample in row] for row in resized_samples])
 binary_samples = binary_samples.reshape(len(resized_samples)*len(resized_samples[0]), 28, 28)
-
+print(binary_samples)
 show(binary_samples[240], figsize=(1,1))
 
 classes = np.array([[i]*50 for i in range(10)]).reshape(-1)
-
+print(classes)
 print(f'X shape: {binary_samples.shape}')
 print(f'y shape: {classes.shape}')
 
