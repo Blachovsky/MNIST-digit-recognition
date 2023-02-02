@@ -5,7 +5,7 @@ from PIL import ImageGrab, ImageOps, ImageEnhance
 import numpy as np
 
 
-model = load_model('finished_working_models/my_data_model.h5')
+model = load_model('models/my_data_model.h5')
 
 def resize_and_center(sample, new_size=28):
     inv_sample = ImageOps.invert(sample)
@@ -45,8 +45,6 @@ class App(tk.Tk):
         self.label.grid(row=0, column=1,pady=2, padx=2)
         self.button_clear.grid(row=1, column=0, pady=2)
         self.classify_btn.grid(row=1, column=1)
-        self.classify_pic_btn.grid(row=2,column=1)
-        self.classify_camera_btn.grid(row=3,column=1)
         #self.canvas.bind("<Motion>", self.start_pos)
         self.canvas.bind("<B1-Motion>", self.draw_lines)
     def clear_all(self):

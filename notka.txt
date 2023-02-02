@@ -1,0 +1,3 @@
+#Jeżeli GUI zacznie za każdym razem  przewidywać złe wyniki to należy sprawdzić czy widok w sytemie nie jest powiększony
+#Wszystkie biblioteki zostały wyeskporotwane do pliku requirements.txt, wirtualnym środowiskiem była Conda w wersji 22.9.0
+#Środowisko wirtualne zostało postawie na Python w wersji 3.6.13
